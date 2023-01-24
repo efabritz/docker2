@@ -1,7 +1,10 @@
-# docker build . --tag=stocks_prods_image
-# docker run -d -p 7999:6060 --name=stocks_prods_container stocks_prods_image
+# docker-compose build
+# docker-compose up -d
 
-# curl -X POST localhost:7999/api/v1/products/ -H 'Content-Type: application/json' -d '{"title":"t2", "description":"d2"}'
-# curl localhost:7999/api/v1/products/
+# docker-compose exec web python manage.py migrate --noinput 
+
+
+# curl -X POST localhost:1337/api/v1/products/ -H 'Content-Type: application/json' -d '{"title":"newtitle", "description":"discr"}'
+# curl localhost:1337/api/v1/products/
 
 

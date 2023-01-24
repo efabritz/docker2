@@ -1,0 +1,42 @@
+version: '3.3'
+
+volumes:
+  pgdata:
+
+networks:
+  backend:
+
+services:
+  web:
+    build: .
+    command: gunicorn stocks_products.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/src/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env.dev
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+  postgredb:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=stockprod
+      - POSTGRES_USER=katja
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: [ 'CMD-SHELL', 'pg_isready -U katja -d stockprod' ]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+    restart: unless-stopped
+    volumes:
+        - ./logs:/var/log
+        - .:/docker-entrypoint-initdb.d
+        - pgdata:/var/lib/postgresql/data
+    networks:
+      backend:
