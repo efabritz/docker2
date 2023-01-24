@@ -1,13 +1,5 @@
 FROM python:3.9.6-alpine
 
-#WORKDIR src
-
-#RUN pip install --upgrade pip
-#COPY ./requirements.txt .
-#RUN pip install -r requirements.txt
-
-#COPY . .
-
 COPY ./requirements.txt /src/requirements.txt
 
 RUN apk update \
@@ -24,6 +16,4 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 WORKDIR src
-
-#CMD ["python3", "manage.py", "runserver", "0.0.0.0:6060"]
 
